@@ -1,2 +1,3 @@
 /data/petfinder-pawpularity-score/train
 /data/petfinder-pawpularity-score/test
+*.pyc

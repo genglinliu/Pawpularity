@@ -2,7 +2,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-from model.hybrid_conv_multicovariate import Hybrid_Conv2d_v2
+from models.hybrid_conv_multicovariate import Hybrid_Conv2d_v2
 
 
 model_urls = {

@@ -1,0 +1,8 @@
+TODO list
+
+-----------
+11/17
+-----------
+Getting the data loading script working 
+load images using pytorch dataloader
+read in csv files
