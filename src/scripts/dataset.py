@@ -1,44 +1,32 @@
-class PawDataset(Dataset):
-    def __init__(self, data_source, metadata, H = 128, W = 128, test_data = False):
-        super(PawDataset, self).__init__()
-        self.data_source = data_source
-        self.metadata = metadata
-        self.H = H
-        self.W = W
-        self.test_data = test_data
-        self.augment = self.transform()
-
-    def transform(self):
-        augmentation = transforms.Compose(
-            [
-                transforms.RandomHorizontalFlip(),
-            ]
-        )
-        return augmentation
-
+class PetDataset(Dataset):
+    def __init__(self, image_filepaths, targets, transform=None):
+        self.image_filepaths = image_filepaths
+        self.targets = targets
+        self.transform = transform
+    
     def __len__(self):
-        return len(self.metadata)
+        return len(self.image_filepaths)
 
-    def __getitem__(self, index):
-        # image_link
-        source = self.metadata['Id'][index]
-        source = os.path.join(f"{self.data_source}{source}.jpg")
-        # loading the image and tranforming it into a torh tensor
-        image = self.load_image(source)
-        # loading metadata
-        metadata = self.metadata.iloc[index, 1:13].astype('float32').to_numpy().reshape(1,-1)
-        if self.test_data == False:
-            # target output
-            image = self.augment(image)
-            image = transforms.ToTensor()(image)
-            target = self.metadata['Pawpularity'][index] / 100.0
-            return (image, metadata, target)
-        else:
-            image = transforms.ToTensor()(image)
-            return (image, metadata)
-    def load_image(self, source):
-        img = cv2.imread(source)
-        img = cv2.resize(img, (self.H, self.W))
-        img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-        img = Image.fromarray(img)
-        return img
+    def __getitem__(self, idx):
+        image_filepath = self.image_filepaths[idx]
+        with open(image_filepath, 'rb') as f:
+            image = Image.open(f)
+            image_rgb = image.convert('RGB')
+        image = np.array(image_rgb) / 255 # convert to 0-1
+
+        if self.transform is not None:
+            image = self.transform(image=image)["image"]
+        
+        image = np.transpose(image, (2, 0, 1)).astype(np.float32)
+        target = self.targets[idx]
+
+        image = torch.tensor(image, dtype = torch.float)
+        target = torch.tensor(target, dtype = torch.float)
+        return image, target
+    
+def get_transforms(dim=224):
+    return A.Compose(
+        [            
+            A.Resize(height=dim, width=dim)
+        ]
+    )
