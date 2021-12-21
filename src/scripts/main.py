@@ -1,5 +1,9 @@
+from dataset import load_data
+from train import *
+
+
 def main():
-    # hyper parameters    
+    # config   
     num_epochs = 1
     num_classes = 2
     batch_size = 32
