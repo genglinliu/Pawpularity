@@ -38,15 +38,15 @@ def main():
     # device
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     
-    print("Loading data...")
-    train_df = get_dataframe(data_dir, is_train=True)
-    test_df = get_dataframe(data_dir, is_train=False)
+    print("Loading data...")    
+    train_loader = load_data(batch_size, is_train=True, use_subset=True)
+    test_loader = load_data(batch_size, is_train=False)
     
     print("Initializing model...")
     model, criterion, optimizer = initialize_model(model_name, learning_rate, num_classes)
    
     print("Start training... \n")
-    train(train_loader, model, criterion, optimizer, num_epochs)
+    train(train_loader, model, criterion, optimizer)
     
     print("Start evaluating... \n")
     evaluate(val_loader, model)    
