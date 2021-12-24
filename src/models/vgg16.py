@@ -11,8 +11,8 @@ model_urls = {
 }
 
 model_path = {
-    'vgg16': 'model/vgg16_pretrained.pth',
-    'vgg16_bn': 'model/vgg16_bn_pretrained.pth'
+    'vgg16': 'models/vgg16_pretrained.pth',
+    'vgg16_bn': 'models/vgg16_bn_pretrained.pth'
 }
 
 

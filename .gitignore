@@ -2,3 +2,4 @@
 /data/petfinder-pawpularity-score/test
 *.pyc
 *.ckpt
+*.pth
