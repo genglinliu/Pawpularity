@@ -1,8 +1,8 @@
 TODO list
 
 -----------
-11/17
+12/24/21
 -----------
-Getting the data loading script working 
-load images using pytorch dataloader
-read in csv files
+ - reconstruct the notebook into modular scripts
+ - train on vanilla vgg16 and get a baseline result
+ - provide interface for CNN with covariates
