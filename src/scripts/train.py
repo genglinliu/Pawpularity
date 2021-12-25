@@ -1,5 +1,13 @@
+import numpy as np
+
 import torch
 import torch.nn as nn
+
+from scripts.utils import make_plots
+from models.vgg16 import *
+
+from tqdm import tqdm
+
 
 def initialize_model(model, learning_rate, num_classes, device):
     """
@@ -57,7 +65,7 @@ def train(train_loader, model, criterion, optimizer, experiment_name, device):
         loss.backward()
         optimizer.step()
 
-        if (i+1) % 50 == 0:
+        if (i+1) % 5 == 0:
             train_true += label.cpu().detach().numpy().tolist()
             train_pred += out.cpu().detach().numpy().tolist()
 
@@ -68,6 +76,6 @@ def train(train_loader, model, criterion, optimizer, experiment_name, device):
             print('Iteration: {}, Train rmse: {}'.format(i+1, train_rmse))
             
     # plot
-    make_plots(step_hist, loss_hist)
+    make_plots(step_hist, loss_hist, experiment_name)
 
     torch.save(model.state_dict(), experiment_name+'.ckpt')

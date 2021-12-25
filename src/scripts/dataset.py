@@ -1,4 +1,6 @@
+import torch
 from torch.utils.data import Dataset
+import PIL.Image as Image
 
 # Image Dataset - might need modification later for covariates
 

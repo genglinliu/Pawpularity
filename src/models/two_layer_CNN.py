@@ -1,3 +1,7 @@
+import torch
+import torch.nn as nn
+import torch.nn.functional as F
+
 class ConvNet_v1(nn.Module):
     """
     Simple two-layer CNN with sequential container

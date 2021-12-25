@@ -1,11 +1,16 @@
+import pandas as pd
+
 import torch
 import torch.nn as nn
-import torch.nn.functional as F
 
-def evaluation(test_loader, model):
+from scripts.utils import get_dataframe
+
+
+def evaluate(test_loader, data_dir, model, device):
     model.eval() 
     print('Making predictions...')
     test_pred = []    
+    test_df = get_dataframe(data_dir, is_train=False)
     
     with torch.no_grad():
         for test_images, test_labels in test_loader:

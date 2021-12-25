@@ -1,10 +1,13 @@
-import pandas as pd
 import os
+
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
 
 from torchvision import transforms
 from torch.utils.data import DataLoader, Subset
 
-from dataset import *
+from scripts.dataset import *
 
 # utils for data loading
 
@@ -25,7 +28,7 @@ def get_dataframe(data_dir, is_train=True):
     return df
 
 
-def load_data(batch_size, is_train=True, use_subset=False):
+def load_data(data_dir, batch_size, is_train=True, use_subset=False):
     """
     return the train dataloader
     """
@@ -58,3 +61,14 @@ def load_data(batch_size, is_train=True, use_subset=False):
                                 shuffle=True)
     
     return data_loader
+
+
+# plotting loss curve
+
+def make_plots(step_hist, loss_hist, experiment_name):
+    plt.plot(step_hist, loss_hist)
+    plt.xlabel('train_iterations')
+    plt.ylabel('Loss')
+    plt.title(experiment_name)
+    plt.savefig(experiment_name)
+    plt.show()
