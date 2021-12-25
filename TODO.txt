@@ -3,6 +3,5 @@ TODO list
 -----------
 12/24/21
 -----------
- - reconstruct the notebook into modular scripts
- - train on vanilla vgg16 and get a baseline result
+ - train on vgg16 and get a baseline result
  - provide interface for CNN with covariates

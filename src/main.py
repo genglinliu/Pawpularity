@@ -9,8 +9,6 @@ from scripts.train import initialize_model, train
 from scripts.evaluation import evaluate
 
 
-
-
 def main():
     
     # config  
@@ -30,7 +28,6 @@ def main():
     test_loader = load_data(data_dir, batch_size, is_train=False)
     
     print("Initializing model...")
-    
     model, criterion, optimizer = initialize_model(model_name, learning_rate, num_classes, device)
    
     print("Start training... \n")

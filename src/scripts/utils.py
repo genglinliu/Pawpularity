@@ -51,9 +51,9 @@ def load_data(data_dir, batch_size, is_train=True, use_subset=False):
     
     dataset = PetDataset(image_filepaths=images, targets=targets, transform=transform)
     
-    subse_ind = list(range(500))
+    subset_ind = list(range(500))
     
-    data_subset = Subset(dataset, subse_ind)
+    data_subset = Subset(dataset, subset_ind)
 
     # data loader
     data_loader = DataLoader(dataset=data_subset if use_subset else dataset, 
