@@ -1,3 +1,5 @@
+from torch.utils.data import Dataset
+
 # Image Dataset - might need modification later for covariates
 
 class PetDataset(Dataset):

@@ -1,4 +1,7 @@
-def initialize_model(model, learning_rate, num_classes):
+import torch
+import torch.nn as nn
+
+def initialize_model(model, learning_rate, num_classes, device):
     """
     initialize the model
     define loss function and optimizer and move data to gpu if available
@@ -18,21 +21,14 @@ def initialize_model(model, learning_rate, num_classes):
     optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
     
     return model, criterion, optimizer
-
-model_name = vgg16_bn(pretrained=True)
-
-model, criterion, optimizer = initialize_model(model_name, learning_rate, num_classes)
-    
     
 # train
-
-experiment_name = "simple_run"
 
 def calc_rmse(y_pred, y_true):
     return np.sqrt(((y_pred - y_true) ** 2).mean())
 
 
-def train(train_loader, model, criterion, optimizer):
+def train(train_loader, model, criterion, optimizer, experiment_name, device):
     """
     Move data to GPU memory
     Also plot the loss function and save it in `Figures/`

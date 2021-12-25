@@ -1,3 +1,6 @@
+import torch
+import torch.nn as nn
+import torch.nn.functional as F
 
 def evaluation(test_loader, model):
     model.eval() 
@@ -19,5 +22,3 @@ def evaluation(test_loader, model):
         output_df = pd.read_csv('submission.csv')
 
         return output_df
-
-evaluation(test_loader, model)

@@ -23,8 +23,11 @@ from sklearn.metrics import mean_squared_error as mse
 from sklearn import linear_model
 from sklearn.model_selection import StratifiedShuffleSplit
 
-from models.vgg16 import *
 from utils import *
+from train import *
+
+from models.vgg16 import *
+from models.two_layer_CNN import *
 
 
 def main():
@@ -34,6 +37,9 @@ def main():
     num_classes = 1 # for regression
     batch_size = 16
     learning_rate = 1e-3
+    model_name = ConvNet_v1()
+    # model_name = vgg16_bn(pretrained=True)
+    experiment_name = "simple_run"
     
     # device
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -43,13 +49,14 @@ def main():
     test_loader = load_data(batch_size, is_train=False)
     
     print("Initializing model...")
-    model, criterion, optimizer = initialize_model(model_name, learning_rate, num_classes)
+    
+    model, criterion, optimizer = initialize_model(model_name, learning_rate, num_classes, device)
    
     print("Start training... \n")
-    train(train_loader, model, criterion, optimizer)
+    train(train_loader, model, criterion, optimizer, experiment_name, device)
     
     print("Start evaluating... \n")
-    evaluate(val_loader, model)    
+    output_df = evaluate(val_loader, model, device)    
 
 if __name__ == "__main__":
     main()
