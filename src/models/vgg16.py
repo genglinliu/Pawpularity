@@ -2,7 +2,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-from models.hybrid_conv_multicovariate import Hybrid_Conv2d_v2
+from models.multicovariate_conv_layer import Hybrid_Conv2d_Multi
 
 
 model_urls = {
@@ -126,7 +126,7 @@ class HybridVGG16(nn.Module):
         
         # hybrid layers
         # self.hybrid_conv = Hybrid_Conv2d(3, 64, kernel_size=(64, 3, 3, 3)) 
-        self.hybrid_conv = Hybrid_Conv2d_v2(3, 64, kernel_size=(64, 3, 3, 3)) 
+        self.hybrid_conv = Hybrid_Conv2d_Multi(3, 64, kernel_size=(64, 3, 3, 3)) 
         
     # Set your own forward pass
     def forward(self, x, cov):

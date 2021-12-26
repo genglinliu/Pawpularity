@@ -16,11 +16,11 @@ then you concat all the output of N convolution, do batchnorm
 
 """
 
-###################
+#########################
 # The hybrid Conv2d layer
-###################
+#########################
 
-class Hybrid_Conv2d_v2(nn.Module):
+class Hybrid_Conv2d_Multi(nn.Module):
     """    
     (self, channel_in, channel_out, kernel_size, cov, stride=1, padding=0)
     kernel_size are 4d weights: (out_channel, in_channel, height, width)
