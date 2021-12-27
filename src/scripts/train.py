@@ -31,11 +31,6 @@ def initialize_model(model, learning_rate, num_classes, device):
     return model, criterion, optimizer
     
 # train
-
-def calc_rmse(y_pred, y_true):
-    return np.sqrt(((y_pred - y_true) ** 2).mean())
-
-
 def train(train_loader, model, criterion, optimizer, experiment_name, device):
     """
     Move data to GPU memory
@@ -47,7 +42,7 @@ def train(train_loader, model, criterion, optimizer, experiment_name, device):
     # for each training sample
     loss_hist = []
     step_hist = []
-    for i, (images, label) in (enumerate(train_loader)):
+    for i, (images, covariates, label) in tqdm(enumerate(train_loader)):
 
         train_pred = list()
         train_true = list()
@@ -57,22 +52,24 @@ def train(train_loader, model, criterion, optimizer, experiment_name, device):
         label = label.to(device).float()
 
         # forward pass
-        out = model(images)
-        loss = torch.sqrt(criterion(out, label))
+        if isinstance(model, VGG):
+            outputs = model(images)               # baseline vgg
+        
+        else:
+            outputs = model(images, covariates)    # hybrid model takes covariate here
+        
+        rmse_loss = torch.sqrt(criterion(out, label))
 
         # backprop
         optimizer.zero_grad()
-        loss.backward()
+        rmse_loss.backward()
         optimizer.step()
 
         if (i+1) % 5 == 0:
             train_true += label.cpu().detach().numpy().tolist()
             train_pred += out.cpu().detach().numpy().tolist()
-
-            train_rmse = calc_rmse(np.array(train_pred), np.array(train_true))
-            
             step_hist.append(i+1)
-            loss_hist.append(train_rmse)
+            loss_hist.append(rmse_loss.item())
             print('Iteration: {}, Train rmse: {}'.format(i+1, train_rmse))
             
     # plot

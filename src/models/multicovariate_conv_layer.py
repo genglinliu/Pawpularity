@@ -20,7 +20,7 @@ then you concat all the output of N convolution, do batchnorm
 # The hybrid Conv2d layer
 #########################
 
-class Hybrid_Conv2d_Multi(nn.Module):
+class Hybrid_Conv2d(nn.Module):
     """    
     (self, channel_in, channel_out, kernel_size, cov, stride=1, padding=0)
     kernel_size are 4d weights: (out_channel, in_channel, height, width)
@@ -49,8 +49,8 @@ class Hybrid_Conv2d_Multi(nn.Module):
             nn.init.kaiming_normal_(self.W[r], mode='fan_out', nonlinearity='relu')
  
     def forward(self, x, cov):
-        # input x is of shape = (minibatch, channel=3, width, height) e.g. (32, 3, 224, 224)
-        # cov: 2d tensor of shape (bs, r): 
+        # input x is of shape = (batchsize, channel=3, width, height) e.g. (32, 3, 224, 224)
+        # cov: 2d tensor of shape (batchsize, r): 
         # r = number of covariates per image; 
         # bs = batchsize = number of images
         

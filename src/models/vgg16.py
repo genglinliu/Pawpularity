@@ -2,7 +2,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-from models.multicovariate_conv_layer import Hybrid_Conv2d_Multi
+from models.multicovariate_conv_layer import Hybrid_Conv2d
 
 
 model_urls = {
@@ -125,8 +125,7 @@ class HybridVGG16(nn.Module):
         self.classifier = vgg.classifier
         
         # hybrid layers
-        # self.hybrid_conv = Hybrid_Conv2d(3, 64, kernel_size=(64, 3, 3, 3)) 
-        self.hybrid_conv = Hybrid_Conv2d_Multi(3, 64, kernel_size=(64, 3, 3, 3)) 
+        self.hybrid_conv = Hybrid_Conv2d(3, 64, kernel_size=(64, 3, 3, 3)) 
         
     # Set your own forward pass
     def forward(self, x, cov):
@@ -157,7 +156,7 @@ class HybridVGG16_v2(nn.Module):
         self.classifier = vgg.classifier
         
         # hybrid layer - to replace vgg.features[3]
-        self.hybrid_conv = Hybrid_Conv2d_v2(64, 64, kernel_size=(64, 64, 3, 3)) 
+        self.hybrid_conv = Hybrid_Conv2d(64, 64, kernel_size=(64, 64, 3, 3)) 
         
     # Set your own forward pass
     def forward(self, x, cov):
@@ -187,7 +186,7 @@ class HybridVGG16_v3(nn.Module):
         self.classifier = vgg.classifier
         
         # hybrid layer - to replace vgg.features[7]
-        self.hybrid_conv = Hybrid_Conv2d_v2(64, 128, kernel_size=(128, 64, 3, 3)) 
+        self.hybrid_conv = Hybrid_Conv2d(64, 128, kernel_size=(128, 64, 3, 3)) 
         
     # Set your own forward pass
     def forward(self, x, cov):
@@ -200,12 +199,12 @@ class HybridVGG16_v3(nn.Module):
         return x
     
     
-class HybridVGG16_v10(nn.Module):
+class HybridVGG16_v4(nn.Module):
     """
     LateFused Hybrid Vgg16_bn network: A pretrained vgg16_bn with 5th conv layer (feature[14]) being a Hybrid_Conv2d layer
     """
     def __init__(self):
-        super(HybridVGG16_v10, self).__init__()
+        super(HybridVGG16_v4, self).__init__()
         # load pytorch vgg16 with pretrained weights
         vgg = vgg16_bn(pretrained=True)
 
@@ -216,8 +215,8 @@ class HybridVGG16_v10(nn.Module):
         self.avgpool = vgg.avgpool
         self.classifier = vgg.classifier
         
-        # hybrid layer - to replace vgg.features[7]
-        self.hybrid_conv = Hybrid_Conv2d_v2(128, 256, kernel_size=(256, 128, 3, 3)) 
+        # hybrid layer - to replace vgg.features[14]
+        self.hybrid_conv = Hybrid_Conv2d(128, 256, kernel_size=(256, 128, 3, 3)) 
         
     # Set your own forward pass
     def forward(self, x, cov):
@@ -229,12 +228,12 @@ class HybridVGG16_v10(nn.Module):
         x = self.classifier(x)
         return x
     
-class HybridVGG16_v40(nn.Module):
+class HybridVGG16_v5(nn.Module):
     """
     LateFused Hybrid Vgg16_bn network: A pretrained vgg16_bn with LAST conv layer (vgg.feature[40]) being a Hybrid_Conv2d layer
     """
     def __init__(self):
-        super(HybridVGG16_v40, self).__init__()
+        super(HybridVGG16_v5, self).__init__()
         # load pytorch vgg16 with pretrained weights
         vgg = vgg16_bn(pretrained=True)
 
@@ -245,8 +244,8 @@ class HybridVGG16_v40(nn.Module):
         self.avgpool = vgg.avgpool
         self.classifier = vgg.classifier
         
-        # hybrid layer - to replace vgg.features[7]
-        self.hybrid_conv = Hybrid_Conv2d_v2(512, 512, kernel_size=(512, 512, 3, 3)) 
+        # hybrid layer - to replace vgg.features[40]
+        self.hybrid_conv = Hybrid_Conv2d(512, 512, kernel_size=(512, 512, 3, 3)) 
         
     # Set your own forward pass
     def forward(self, x, cov):
