@@ -125,7 +125,7 @@ class HybridVGG16(nn.Module):
         self.classifier = vgg.classifier
         
         # hybrid layers
-        self.hybrid_conv = Hybrid_Conv2d(3, 64, kernel_size=(64, 3, 3, 3)) 
+        self.hybrid_conv = Hybrid_Conv2d(3, 64, kernel_size=(64, 3, 3, 3), num_cov=12) 
         
     # Set your own forward pass
     def forward(self, x, cov):

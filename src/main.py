@@ -2,7 +2,7 @@
 
 import torch
 from models.vgg16 import *
-from models.two_layer_CNN import ConvNet_v1
+from models.two_layer_CNN import *
 
 from scripts.utils import load_data, get_dataframe
 from scripts.train import initialize_model, train
@@ -16,9 +16,9 @@ def main():
     num_classes = 1 # for regression
     batch_size = 16
     learning_rate = 1e-3
-    model_name = ConvNet_v1()
+    model_name = ConvNet_hybrid()
     # model_name = vgg16_bn(pretrained=True)
-    experiment_name = "simple_run"
+    experiment_name = "ConvNet_with_covariates"
     
     # device
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")

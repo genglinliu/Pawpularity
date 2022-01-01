@@ -1,8 +1,10 @@
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
+from models.multicovariate_conv_layer import Hybrid_Conv2d
 
-class ConvNet_v1(nn.Module):
+
+class ConvNet_simple(nn.Module):
     """
     Simple two-layer CNN with sequential container
     """
@@ -26,3 +28,28 @@ class ConvNet_v1(nn.Module):
         out = self.layer1(x)
         out = self.layer2(out)
         return out
+    
+
+class ConvNet_hybrid(nn.Module):
+    """
+    Two-layer CNN with one hybrid layer
+    """
+    def __init__(self): 
+        super(ConvNet_hybrid, self).__init__()  
+          
+        self.hybrid_conv_1 = Hybrid_Conv2d(3, 16, kernel_size=(16, 3, 3, 3), num_cov=12) 
+        
+        # self.conv1 = nn.Conv2d(3, 16, 3)
+        self.conv2 = nn.Conv2d(16, 32, 3)
+        self.pool = nn.MaxPool2d(kernel_size=2, stride=2)
+
+        self.fc1 = nn.Linear(387200, 128) # TODO: this size might be incorrect now with hybrid
+        self.fc2 = nn.Linear(128, 2) 
+        
+    def forward(self, x, cov):
+        x = F.relu(self.hybrid_conv_1(x, cov))
+        x = self.pool(F.relu(self.conv2(x)))
+        x = x.view(1, -1) 
+        x = F.relu(self.fc1(x))
+        x = self.fc2(x)
+        return x

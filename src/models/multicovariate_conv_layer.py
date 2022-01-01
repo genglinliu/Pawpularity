@@ -25,14 +25,14 @@ class Hybrid_Conv2d(nn.Module):
     (self, channel_in, channel_out, kernel_size, cov, stride=1, padding=0)
     kernel_size are 4d weights: (out_channel, in_channel, height, width)
     """    
-    def __init__(self, channel_in, channel_out, kernel_size, stride=1, padding=0):
-        super(Hybrid_Conv2d_v2, self).__init__()
+    def __init__(self, channel_in, channel_out, kernel_size, num_cov, stride=1, padding=0):
+        super(Hybrid_Conv2d, self).__init__()
         self.kernel_size = kernel_size # 4D weight (out_channel, in_channel, height, width)
         self.channel_in = channel_in
         self.channel_out = channel_out
         self.stride = stride
         self.padding = padding
-        self.num_cov = 3 # number of covariates
+        self.num_cov = num_cov # number of covariates
 
         self.W_0 = nn.Parameter(torch.randn(kernel_size), requires_grad=True)
         self.W = []
