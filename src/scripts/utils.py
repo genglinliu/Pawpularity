@@ -28,6 +28,7 @@ def get_dataframe(data_dir, is_train=True):
     return df
 
 
+
 def load_data(data_dir, batch_size, is_train=True, use_subset=False):
     """
     return the train dataloader
@@ -35,11 +36,13 @@ def load_data(data_dir, batch_size, is_train=True, use_subset=False):
     
     if is_train:
         df = get_dataframe(data_dir, is_train=True)
-        images = np.array(df['img_file_path'])
-        targets = np.array(df['Pawpularity'])
+        images = df['img_file_path'].to_numpy()
+        covariates = df.iloc[:, 2:13].to_numpy()
+        targets = df['Pawpularity'].to_numpy()
     else:
         df = get_dataframe(data_dir, is_train=False)
-        images = np.array(df['img_file_path'])
+        images = df['img_file_path'].to_numpy()
+        covariates = df.iloc[:, 2:13].to_numpy()
         targets = np.zeros_like(images)
     
     transform = transforms.Compose([
@@ -49,7 +52,7 @@ def load_data(data_dir, batch_size, is_train=True, use_subset=False):
         transforms.Normalize(mean=[0.5] * 3, std=[0.5] * 3)
     ])
     
-    dataset = PetDataset(image_filepaths=images, targets=targets, transform=transform)
+    dataset = PawpularityDataset(image_filepaths=images, covariates= covariates, targets=targets, transform=transform)
     
     subset_ind = list(range(500))
     

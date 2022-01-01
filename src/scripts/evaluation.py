@@ -15,9 +15,13 @@ def evaluate(test_loader, data_dir, model, device):
     with torch.no_grad():
         for test_images, test_labels in test_loader:
             test_images = test_images.to(device).float()
-            # forward
-            out = model(test_images)
-            test_pred += out.cpu().numpy().tolist()
+            
+            # forward pass
+            if isinstance(model, VGG):
+                outputs = model(images)               # baseline vgg
+            
+            else:
+                outputs = model(images, covariates)    # hybrid model takes covariate here
 
         # write to file
         output = pd.DataFrame({"Id": test_df['Id'], "Pawpularity": test_pred})
