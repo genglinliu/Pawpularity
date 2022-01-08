@@ -43,8 +43,7 @@ class ConvNet_hybrid(nn.Module):
         self.conv2 = nn.Conv2d(16, 32, 3)
         self.pool = nn.MaxPool2d(kernel_size=2, stride=2)
 
-        self.fc1 = nn.Linear(387200, 128) # TODO: this size might be incorrect now with hybrid, need debug here
-        self.fc2 = nn.Linear(128, 2) 
+        self.fc1 = nn.Linear(6195200, 128) # with hybrid, parameter number becomes 6195200
         
     def forward(self, x, cov):
         x = F.relu(self.hybrid_conv_1(x, cov))
