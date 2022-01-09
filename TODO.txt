@@ -5,3 +5,9 @@ TODO list
 -----------
  - train on vgg16 and get a baseline result
  - provide interface for CNN with covariates
+
+-----------
+1/8/22
+-----------
+ - training with ALL the covariates makes the model parameter number way too large. 
+ - It's infeasible and we should only try a few
