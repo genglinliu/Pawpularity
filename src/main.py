@@ -16,7 +16,7 @@ def main():
     num_classes = 1 # for regression
     batch_size = 16
     learning_rate = 1e-3
-    model_name = ConvNet_hybrid()
+    model_name = ConvNet_simple()
     # model_name = vgg16_bn(pretrained=True)
     experiment_name = "ConvNet_with_covariates"
     
@@ -31,7 +31,7 @@ def main():
     model, criterion, optimizer = initialize_model(model_name, learning_rate, num_classes, device)
    
     print("Start training... \n")
-    train(train_loader, model, criterion, optimizer, experiment_name, device)
+    # train(train_loader, model, criterion, optimizer, experiment_name, device)
     
     print("Start evaluating... \n")
     output_df = evaluate(test_loader, data_dir, model, device)    

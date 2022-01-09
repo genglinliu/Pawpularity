@@ -9,7 +9,7 @@ class ConvNet_simple(nn.Module):
     Simple two-layer CNN with sequential container
     """
     def __init__(self):
-        super(ConvNet_v1, self).__init__()
+        super(ConvNet_simple, self).__init__()
         self.layer1 = nn.Sequential(
             nn.Conv2d(3, 16, 3),
             nn.ReLU(),

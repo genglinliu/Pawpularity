@@ -5,6 +5,7 @@ import torch.nn as nn
 
 from scripts.utils import make_plots
 from models.vgg16 import *
+from models.two_layer_CNN import *
 
 from tqdm import tqdm
 
@@ -52,13 +53,13 @@ def train(train_loader, model, criterion, optimizer, experiment_name, device):
         label = label.to(device).float()
 
         # forward pass
-        if isinstance(model, VGG):
+        if isinstance(model, VGG) or isinstance(model, ConvNet_simple):
             outputs = model(images)               # baseline vgg
         
         else:
             outputs = model(images, covariates)    # hybrid model takes covariate here
         
-        rmse_loss = torch.sqrt(criterion(out, label))
+        rmse_loss = torch.sqrt(criterion(outputs, label))
 
         # backprop
         optimizer.zero_grad()
@@ -67,10 +68,10 @@ def train(train_loader, model, criterion, optimizer, experiment_name, device):
 
         if (i+1) % 5 == 0:
             train_true += label.cpu().detach().numpy().tolist()
-            train_pred += out.cpu().detach().numpy().tolist()
+            train_pred += outputs.cpu().detach().numpy().tolist()
             step_hist.append(i+1)
             loss_hist.append(rmse_loss.item())
-            print('Iteration: {}, Train rmse: {}'.format(i+1, train_rmse))
+            print('Iteration: {}, Train rmse: {}'.format(i+1, rmse_loss.item()))
             
     # plot
     make_plots(step_hist, loss_hist, experiment_name)
