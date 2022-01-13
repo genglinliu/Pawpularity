@@ -6,12 +6,12 @@ from models.multicovariate_conv_layer import Hybrid_Conv2d
 
 
 model_urls = {
-    'vgg16': 'https://download.pytorch.org/models/vgg16-397923af.pth',
+    'vgg11_bn': 'https://download.pytorch.org/models/vgg11_bn-6002323d.pth',
     'vgg16_bn': 'https://download.pytorch.org/models/vgg16_bn-6c64b313.pth'
 }
 
 model_path = {
-    'vgg16': 'models/vgg16_pretrained.pth',
+    'vgg11_bn': 'models/vgg11_bn_pretrained.pth',
     'vgg16_bn': 'models/vgg16_bn_pretrained.pth'
 }
 
@@ -71,7 +71,8 @@ def make_layers(cfg, batch_norm=False):
     return nn.Sequential(*layers)
 
 # M means MaxPool
-cfg = [64, 64, 'M', 128, 128, 'M', 256, 256, 256, 'M', 512, 512, 512, 'M', 512, 512, 512, 'M']
+cfg_vgg11 = [64, 'M', 128, 'M', 256, 256, 'M', 512, 512, 'M', 512, 512, 'M']
+cfg_vgg16 = [64, 64, 'M', 128, 128, 'M', 256, 256, 256, 'M', 512, 512, 512, 'M', 512, 512, 512, 'M']
 
 
 def _vgg(arch, cfg, batch_norm, pretrained, progress, **kwargs):
@@ -84,16 +85,15 @@ def _vgg(arch, cfg, batch_norm, pretrained, progress, **kwargs):
     return model
 
 
-def vgg16(pretrained=False, progress=True, **kwargs):
-    """ (CUSTOMIZED) VGG 16-layer model (configuration "D")
-    Takes in the cov paramter and forward function is customized
+def vgg11_bn(pretrained=False, progress=True, **kwargs):
+    """ (CUSTOMIZED) VGG 11-layer model (configuration "A") with batch normalization
     `"Very Deep Convolutional Networks For Large-Scale Image Recognition" <https://arxiv.org/pdf/1409.1556.pdf>`_
 
     Args:
         pretrained (bool): If True, returns a model pre-trained on ImageNet
         progress (bool): If True, displays a progress bar of the download to stderr
     """
-    return _vgg('vgg16', cfg, False, pretrained, progress, **kwargs)
+    return _vgg('vgg11_bn', cfg_vgg11, True, pretrained, progress, **kwargs)
 
 
 def vgg16_bn(pretrained=False, progress=True, **kwargs):
@@ -104,7 +104,7 @@ def vgg16_bn(pretrained=False, progress=True, **kwargs):
         pretrained (bool): If True, returns a model pre-trained on ImageNet
         progress (bool): If True, displays a progress bar of the download to stderr
     """
-    return _vgg('vgg16_bn', cfg, True, pretrained, progress, **kwargs)
+    return _vgg('vgg16_bn', cfg_vgg16, True, pretrained, progress, **kwargs)
 
 
 

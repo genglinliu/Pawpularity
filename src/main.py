@@ -1,7 +1,7 @@
 # import necessary packages and utils
 
 import torch
-from models.vgg16 import *
+from models.vgg import *
 from models.two_layer_CNN import *
 
 from scripts.utils import load_data, get_dataframe
@@ -14,11 +14,11 @@ def main():
     # config  
     data_dir = "../data/petfinder-pawpularity-score/"
     num_classes = 1 # for regression
-    batch_size = 16
-    learning_rate = 1e-3
+    batch_size = 32
+    learning_rate = 1e-5
     # model_name = ConvNet_hybrid()
-    model_name = vgg16_bn(pretrained=True)
-    experiment_name = "vgg16_bn"
+    model_name = vgg11_bn(pretrained=True)
+    experiment_name = "vgg11_bn"
     
     # device
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
