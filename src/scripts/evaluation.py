@@ -3,7 +3,7 @@ import pandas as pd
 import torch
 import torch.nn as nn
 
-from models.vgg16 import *
+from models.vgg import *
 from models.two_layer_CNN import *
 
 from scripts.utils import get_dataframe
