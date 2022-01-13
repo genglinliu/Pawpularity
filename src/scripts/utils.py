@@ -75,3 +75,8 @@ def make_plots(step_hist, loss_hist, experiment_name):
     plt.title(experiment_name)
     plt.savefig(experiment_name)
     plt.show()
+    
+# upzip
+def unzip_dataset():
+    with zipfile.ZipFile("petfinder-pawpularity-score.zip","r") as zip_ref:
+        zip_ref.extractall()
