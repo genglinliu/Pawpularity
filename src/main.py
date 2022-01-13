@@ -17,8 +17,8 @@ def main():
     batch_size = 32
     learning_rate = 1e-5
     # model_name = HybridVGG16()
+    # experiment_name = "vgg16_hybrid"
     model_name = vgg16_bn(pretrained=True)
-    experiment_name = "vgg16_hybrid"
     experiment_name = "vgg16_baseline"
     
     # device

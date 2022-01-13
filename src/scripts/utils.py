@@ -48,7 +48,7 @@ def load_data(data_dir, batch_size, is_train=True, use_subset=False):
     # covariates [2:13]
     # But here for computational complexity we will only choose a few
     selected_columns = ['Accessory', 'Collage', 'Human']
-    covariates = df.iloc[:, selected_columns].to_numpy()
+    covariates = df.loc[:, selected_columns].to_numpy()
     
     transform = transforms.Compose([
         transforms.Resize((224, 224)),
