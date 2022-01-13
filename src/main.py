@@ -16,14 +16,15 @@ def main():
     num_classes = 1 # for regression
     batch_size = 32
     learning_rate = 1e-5
-    # model_name = ConvNet_hybrid()
-    model_name = vgg11_bn(pretrained=True)
-    experiment_name = "vgg11_bn"
+    # model_name = HybridVGG16()
+    model_name = vgg16_bn(pretrained=True)
+    experiment_name = "vgg16_bn"
     
     # device
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     
-    print("Loading data...")    
+    print("Device = ", device)
+    print("Loading data... ")    
     train_loader = load_data(data_dir, batch_size, is_train=True, use_subset=True)
     test_loader = load_data(data_dir, batch_size, is_train=False)
     

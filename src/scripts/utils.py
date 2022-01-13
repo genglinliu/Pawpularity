@@ -34,15 +34,20 @@ def load_data(data_dir, batch_size, is_train=True, use_subset=False):
     return the train dataloader
     """
     
+    # images
+    images = df['img_file_path'].to_numpy()
+    
+    # covariates [2:13]
+    # But here for computational complexity we will only choose a few
+    selected_columns = ['Accessory', 'Collage', 'Human']
+    covariates = df.iloc[:, selected_columns].to_numpy()
+    
+    # targets
     if is_train:
         df = get_dataframe(data_dir, is_train=True)
-        images = df['img_file_path'].to_numpy()
-        covariates = df.iloc[:, 2:13].to_numpy()
         targets = df['Pawpularity'].to_numpy()
     else:
         df = get_dataframe(data_dir, is_train=False)
-        images = df['img_file_path'].to_numpy()
-        covariates = df.iloc[:, 2:13].to_numpy()
         targets = np.zeros_like(images)
     
     transform = transforms.Compose([
@@ -52,7 +57,7 @@ def load_data(data_dir, batch_size, is_train=True, use_subset=False):
         transforms.Normalize(mean=[0.5] * 3, std=[0.5] * 3)
     ])
     
-    dataset = PawpularityDataset(image_filepaths=images, covariates= covariates, targets=targets, transform=transform)
+    dataset = PawpularityDataset(image_filepaths=images, covariates=covariates, targets=targets, transform=transform)
     
     subset_ind = list(range(500))
     

@@ -111,7 +111,6 @@ def vgg16_bn(pretrained=False, progress=True, **kwargs):
 class HybridVGG16(nn.Module):
     """
     Hybrid Vgg16_bn network: A pretrained vgg16_bn with FIRST conv layer being a Hybrid_Conv2d layer
-    
     """
     def __init__(self):
         super(HybridVGG16, self).__init__()
@@ -125,7 +124,7 @@ class HybridVGG16(nn.Module):
         self.classifier = vgg.classifier
         
         # hybrid layers
-        self.hybrid_conv = Hybrid_Conv2d(3, 64, kernel_size=(64, 3, 3, 3), num_cov=12) 
+        self.hybrid_conv = Hybrid_Conv2d(3, 64, kernel_size=(64, 3, 3, 3), num_cov=3) 
         
     # Set your own forward pass
     def forward(self, x, cov):
