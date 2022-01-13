@@ -4,7 +4,7 @@ import torch
 import torch.nn as nn
 
 from scripts.utils import make_plots
-from models.vgg16 import *
+from models.vgg import *
 from models.two_layer_CNN import *
 
 from tqdm import tqdm
