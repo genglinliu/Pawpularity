@@ -50,6 +50,7 @@ def train(train_loader, model, criterion, optimizer, experiment_name, device):
 
         # move to gpu if available
         images = images.to(device).float()
+        covariates = covariates.to(device).float()
         label = label.to(device).float()
 
         # forward pass
