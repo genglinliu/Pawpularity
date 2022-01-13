@@ -8,6 +8,8 @@ from models.two_layer_CNN import *
 
 from scripts.utils import get_dataframe
 
+from tqdm import tqdm
+
 
 def evaluate(test_loader, data_dir, model, device):
     model.eval() 
@@ -16,7 +18,7 @@ def evaluate(test_loader, data_dir, model, device):
     test_df = get_dataframe(data_dir, is_train=False)
     
     with torch.no_grad():
-        for (test_images, covariates, test_labels) in test_loader:
+        for (test_images, covariates, test_labels) in tqdm(test_loader):
             test_images = test_images.to(device).float()
             # forward pass
             if isinstance(model, VGG) or isinstance(model, ConvNet_simple):

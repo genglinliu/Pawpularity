@@ -43,8 +43,8 @@ def train(train_loader, model, criterion, optimizer, experiment_name, device):
     # for each training sample
     loss_hist = []
     step_hist = []
-    for i, (images, covariates, label) in tqdm(enumerate(train_loader)):
-
+    for i, (images, covariates, label) in enumerate(tqdm(train_loader)):
+    
         train_pred = list()
         train_true = list()
 
@@ -57,7 +57,7 @@ def train(train_loader, model, criterion, optimizer, experiment_name, device):
             outputs = model(images)               # baseline vgg
         
         else:
-            outputs = model(images, covariates)    # hybrid model takes covariate here
+            outputs = model(images, covariates)   # hybrid model takes covariate here
         
         outputs = torch.squeeze(outputs)
         rmse_loss = torch.sqrt(criterion(outputs, label))
