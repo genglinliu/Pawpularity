@@ -18,14 +18,15 @@ def main():
     learning_rate = 1e-5
     # model_name = HybridVGG16()
     model_name = vgg16_bn(pretrained=True)
-    experiment_name = "vgg16_bn"
+    experiment_name = "vgg16_hybrid"
+    experiment_name = "vgg16_baseline"
     
     # device
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     
     print("Device = ", device)
     print("Loading data... ")    
-    train_loader = load_data(data_dir, batch_size, is_train=True, use_subset=True)
+    train_loader = load_data(data_dir, batch_size, is_train=True, use_subset=False)
     test_loader = load_data(data_dir, batch_size, is_train=False)
     
     print("Initializing model...")

@@ -34,14 +34,6 @@ def load_data(data_dir, batch_size, is_train=True, use_subset=False):
     return the train dataloader
     """
     
-    # images
-    images = df['img_file_path'].to_numpy()
-    
-    # covariates [2:13]
-    # But here for computational complexity we will only choose a few
-    selected_columns = ['Accessory', 'Collage', 'Human']
-    covariates = df.iloc[:, selected_columns].to_numpy()
-    
     # targets
     if is_train:
         df = get_dataframe(data_dir, is_train=True)
@@ -49,6 +41,14 @@ def load_data(data_dir, batch_size, is_train=True, use_subset=False):
     else:
         df = get_dataframe(data_dir, is_train=False)
         targets = np.zeros_like(images)
+        
+    # images
+    images = df['img_file_path'].to_numpy()
+    
+    # covariates [2:13]
+    # But here for computational complexity we will only choose a few
+    selected_columns = ['Accessory', 'Collage', 'Human']
+    covariates = df.iloc[:, selected_columns].to_numpy()
     
     transform = transforms.Compose([
         transforms.Resize((224, 224)),
