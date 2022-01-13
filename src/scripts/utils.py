@@ -34,16 +34,15 @@ def load_data(data_dir, batch_size, is_train=True, use_subset=False):
     return the train dataloader
     """
     
-    # targets
+    # images and targets
     if is_train:
         df = get_dataframe(data_dir, is_train=True)
+        images = df['img_file_path'].to_numpy()
         targets = df['Pawpularity'].to_numpy()
     else:
         df = get_dataframe(data_dir, is_train=False)
+        images = df['img_file_path'].to_numpy()
         targets = np.zeros_like(images)
-        
-    # images
-    images = df['img_file_path'].to_numpy()
     
     # covariates [2:13]
     # But here for computational complexity we will only choose a few
