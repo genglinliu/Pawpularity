@@ -59,6 +59,7 @@ def train(train_loader, model, criterion, optimizer, experiment_name, device):
         else:
             outputs = model(images, covariates)    # hybrid model takes covariate here
         
+        outputs = torch.squeeze(outputs)
         rmse_loss = torch.sqrt(criterion(outputs, label))
 
         # backprop

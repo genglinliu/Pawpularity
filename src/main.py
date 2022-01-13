@@ -36,5 +36,7 @@ def main():
     print("Start evaluating... \n")
     output_df = evaluate(test_loader, data_dir, model, device)    
     
+    print("END OF PROGRAM")
+    
 if __name__ == "__main__":
     main()
