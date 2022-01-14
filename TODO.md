@@ -21,7 +21,7 @@
     - hyper params: batchsize=32, lr=1e-5 adapted from celebA setting for vgg
  - hybrid vgg16 needs debugging - tensor shape does not match during loss function calculation
     - debug locally first with two-layer net
- - Need to develop a clean notebook for submission (since it runs fast we will just put a whole pipeline up)
+ - Need to develop a clean notebook for submission (skip training in the submission code, follow format strictly)
     - want to quickly see how well vgg16 baseline performs 
  - Make sure hybrid uses the same hyperparam configurations for fairness
  - (future) provide better plotting function and select covariates using a ML model instead of hand-picking

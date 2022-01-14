@@ -44,7 +44,7 @@ class ConvNet_hybrid(nn.Module):
         self.pool = nn.MaxPool2d(kernel_size=2, stride=2)
 
         self.layer2 = nn.Sequential(
-            nn.Linear(1548800, 128),
+            nn.Linear(3097600, 128),
             nn.ReLU(),
             nn.Linear(128, 1) 
         )
@@ -53,5 +53,6 @@ class ConvNet_hybrid(nn.Module):
         x = F.relu(self.hybrid_conv_1(x, cov))
         x = self.pool(F.relu(self.conv2(x)))
         x = x.view(1, -1) 
+        print(x.shape)
         x = self.layer2(x)
         return x
