@@ -37,7 +37,7 @@ class ConvNet_hybrid(nn.Module):
     def __init__(self): 
         super(ConvNet_hybrid, self).__init__()  
           
-        self.hybrid_conv_1 = Hybrid_Conv2d(3, 8, kernel_size=(8, 3, 3, 3), num_cov=12) 
+        self.hybrid_conv_1 = Hybrid_Conv2d(3, 8, kernel_size=(8, 3, 3, 3), num_cov=3) 
         
         # self.conv1 = nn.Conv2d(3, 16, 3)
         self.conv2 = nn.Conv2d(8, 8, 3)
@@ -50,9 +50,11 @@ class ConvNet_hybrid(nn.Module):
         )
         
     def forward(self, x, cov):
+        # x: (batchsize, num_cov, 224, 224) = (32, 3, 224, 224)
+        # cov: (batchsize, num_cov) = (32, 3)
         x = F.relu(self.hybrid_conv_1(x, cov))
         x = self.pool(F.relu(self.conv2(x)))
         x = x.view(1, -1) 
-        print(x.shape)
+        # print(x.shape)
         x = self.layer2(x)
         return x

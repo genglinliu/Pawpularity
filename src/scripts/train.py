@@ -19,7 +19,7 @@ def initialize_model(model, learning_rate, num_classes, device):
         model, loss function(criterion), optimizer
     """
     
-    if isinstance(model, VGG):
+    if isinstance(model, VGG) or isinstance(model, HybridVGG16):
         num_ftrs = model.classifier[6].in_features
         model.classifier[6] = nn.Linear(num_ftrs, num_classes)
     
@@ -56,11 +56,19 @@ def train(train_loader, model, criterion, optimizer, experiment_name, device):
         # forward pass
         if isinstance(model, VGG) or isinstance(model, ConvNet_simple):
             outputs = model(images)               # baseline vgg
+            outputs = torch.squeeze(outputs)
         
         else:
             outputs = model(images, covariates)   # hybrid model takes covariate here
         
-        outputs = torch.squeeze(outputs)
+        # debug
+        print("DEBUG: BEGIN")
+        print("line 66 output ", outputs.shape) # (32, 1000), expected: (32, 1) then we can squeeze
+        print("line 67 labels ", label.shape) # (32)
+        print("line 68 images ", images.shape) # (32, 3, 224, 224)
+        print("line 69 cov ", covariates.shape) # (32, 3)
+        print("DEBUG: END")
+        
         rmse_loss = torch.sqrt(criterion(outputs, label))
 
         # backprop
