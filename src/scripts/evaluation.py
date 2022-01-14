@@ -24,7 +24,7 @@ def evaluate(test_loader, data_dir, model, device):
             if isinstance(model, VGG) or isinstance(model, ConvNet_simple):
                 outputs = model(test_images)               # baseline vgg
             else:
-                outputs = model(images, covariates)    # hybrid model takes covariate here
+                outputs = model(test_images, covariates)    # hybrid model takes covariate here
   
             test_pred.extend(outputs.cpu().detach().squeeze().numpy().tolist())
 
