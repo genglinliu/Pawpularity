@@ -58,8 +58,8 @@ class Hybrid_Conv2d(nn.Module):
         for i in range(cov.shape[0]): # for every image x[i] there are r covariates
             res = torch.zeros_like(self.W_0)
             for j in range(cov.shape[1]): # for every cov
-                self.W[j] = self.W[j].to('cuda:0')
-                cov[i][j] = cov[i][j].to('cuda:0')
+                self.W[j] = self.W[j].to('cpu')
+                cov[i][j] = cov[i][j].to('cpu')
                 res += ( torch.mul(self.W[j], cov[i][j]) ) # cov[i] is an array with shape (r,); cov[i][j] is either 1 or 0
             
             kernel = self.W_0 + res
