@@ -26,8 +26,8 @@ def main():
     # experiment_name = "vgg16_baseline"
     
     # device
-    # device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    device = torch.device("cpu")
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    # device = torch.device("cpu")
     
     print("Device = ", device)
     print("Loading data... ")    
