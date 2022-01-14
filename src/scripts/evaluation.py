@@ -25,14 +25,10 @@ def evaluate(test_loader, data_dir, model, device):
                 outputs = model(test_images)               # baseline vgg
             else:
                 outputs = model(images, covariates)    # hybrid model takes covariate here
-                
-            test_pred += outputs.cpu().numpy().tolist()
+  
+            test_pred.extend(outputs.cpu().detach().squeeze().numpy().tolist())
 
         # write to file
-        output = pd.DataFrame({"Id": test_df['Id'], "Pawpularity": test_pred})
-        output.to_csv('submission.csv', index = False)
-
-        # check output
-        output_df = pd.read_csv('submission.csv')
+        output_df = pd.DataFrame({"Id": test_df['Id'], "Pawpularity": test_pred})
 
         return output_df

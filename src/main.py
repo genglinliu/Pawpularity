@@ -41,6 +41,7 @@ def main():
     
     print("Start evaluating... \n")
     output_df = evaluate(test_loader, data_dir, model, device)    
+    output_df.to_csv('submission.csv', index = False)
     
     print("END OF PROGRAM")
     
