@@ -26,8 +26,13 @@
  - Make sure hybrid uses the same hyperparam configurations for fairness
  - (future) provide better plotting function and select covariates using a ML model instead of hand-picking
 
-#### 1/13/22 updates
+#### Updates
  - Have a [submission notebook on Kaggle](https://www.kaggle.com/opengl/pawpularity-hybrid-vgg)
  - debugged for a whole fcking day this current version finally works on vgg16 hybrid..
- - TODOs: save checkpoints and uploads to kaggle
+
+### TODOs: 
+   - save checkpoints and uploads to kaggle
    - make sure the submission formats match the requirements
+   - for training function, check whether there exist a checkpoint; only train if not
+   - better plotting function
+   - select covariates using a ML model instead of hand-picking (future)
