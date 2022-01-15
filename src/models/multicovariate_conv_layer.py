@@ -5,14 +5,16 @@ import torch.nn.functional as F
 
 
 """
-A d-dim covaraite vector S as input
+A (n, r) covaraite tensor S as input: (batchsize=n, num_cov=r)
 
-K_l = W_0 + W_1 * S_l1 + W_2 * S_l2 + ...
-where S_l is a row of S. it consists of `r` covariates
+K_l = W_0 + W_1 * S_l1 + W_2 * S_l2 + ... + S_lr
+where S_l is the l-th row of S. it consists of `r` covariates
 
-Compute kernel: For each minibatch of size N, with the kernel param W0 and W1, 
+Assume S_l1, S_l2, ... are all binary (1 or 0)
+
+Compute kernel: For each minibatch of size n, with the kernel param W0 and W1, 
 first convolve each data point in the minibatch with either W_0 or W_0+W_1 (depend on the covariate), 
-then you concat all the output of N convolution, do batchnorm
+then you concat all the output of n convolution, do batchnorm
 
 """
 
@@ -55,17 +57,17 @@ class Hybrid_Conv2d(nn.Module):
         # bs = batchsize = number of images
         
         outputs = []
-        for i in range(cov.shape[0]): # for every image x[i] there are r covariates
+        for i in range(cov.shape[0]): # for every image x[i]
             res = torch.zeros_like(self.W_0)
-            for j in range(cov.shape[1]): # for every cov
-                # self.W[j] = self.W[j].to('cuda:0')
-                # cov[i][j] = cov[i][j].to('cuda:0')
+            for j in range(cov.shape[1]): # for j-th cov of x[i]
+                # element-wise multiply the W_j * cov_ij then take sum of these products across the covariates of that one image
                 res = res + ( torch.mul(self.W[j], cov[i][j]) ).to('cuda:0') # cov[i] is an array with shape (r,); cov[i][j] is either 1 or 0
-            
+            # kernel is the linear combination of all those weight matrices. W_0 is just a bias term
             kernel = self.W_0 + res
+            # now compute the convolution for each image in the batch, but using the hybrid kernel
             x_i = torch.unsqueeze(x[i], 0) # (3, 224, 224) -> (1, 3, 224, 224) for 4d weight shape matching
             out = F.conv2d(x_i, kernel, stride=self.stride, padding=self.padding)
             outputs.append(out) 
-            
+            # concat the outputs and return that
         outputs = torch.cat(outputs)
         return outputs
